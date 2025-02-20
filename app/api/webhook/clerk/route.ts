@@ -68,7 +68,7 @@ export async function POST(req: Request) {
         const newUser = await createUser(user);
 
         // Update user metadata with new user id
-        const clerkClient = createClerkClient({
+        const clerkClient = await createClerkClient({
             publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
         });
 

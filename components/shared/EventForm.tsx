@@ -15,8 +15,11 @@ import { FileUploader } from "./FileUploader"
 import Image from "next/image"
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
-import { Checkbox } from "@/components/ui/checkbox"
-
+import { Checkbox } from "@/components/ui/checkbox";
+import { useUploadThing } from '@/lib/uploadthing';
+import { handleError } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { createEvent } from "@/lib/actions/event.actions";
 
 
 type EventFormProps = {
@@ -27,7 +30,10 @@ type EventFormProps = {
 const EventForm = ({ userId, type }: EventFormProps) => {
 
     const initialValues = eventDefaultValues;
+    const router = useRouter();
     const [files, setFiles] = useState<File[]>([]);
+
+    const { startUpload } = useUploadThing('imageUploader');
 
     // 1. Define your form.
     const form = useForm<z.infer<typeof eventFormSchema>>({
@@ -36,15 +42,44 @@ const EventForm = ({ userId, type }: EventFormProps) => {
     })
 
     // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof eventFormSchema>) {
-        console.log(values);
+    async function onSubmit(values: z.infer<typeof eventFormSchema>) {
+
+        let uploadedImageUrl = values.imageUrl;
+
+        if (files.length > 0) {
+            const uploadedImages = await startUpload(files);
+
+            if (!uploadedImages) {
+                return;
+            }
+
+            uploadedImageUrl = uploadedImages[0].url;
+        }
+
+        if (type === 'Create') {
+            try {
+                const newEvent = await createEvent({
+                    event: { ...values, imageUrl: uploadedImageUrl },
+                    userId,
+                    path: '/profile'
+                });
+
+                if (newEvent) {
+                    form.reset();
+                    router.push(`/events/${newEvent._id}`);
+                }
+            } catch (error) {
+                handleError(error);
+                console.log(error);
+            }
+        }
     }
 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5">
 
-                <div className="flex flex-col gap-5md:flex-row">
+                <div className="flex flex-col gap-5 md:flex-row md:items-center">
                     <FormField
                         control={form.control}
                         name="title"

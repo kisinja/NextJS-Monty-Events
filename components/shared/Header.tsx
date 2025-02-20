@@ -9,8 +9,9 @@ const Header = () => {
     return (
         <header className="w-full border-b">
             <div className="wrapper flex items-center justify-between">
-                <Link href="/" className="w-36">
-                    <Image src="/assets/images/logo.svg" width={128} height={38} alt="Monty Events Logo" />
+                <Link href="/" className="w-36 font-bold text-xl">
+                    {/* <Image src="/assets/images/logo.svg" width={128} height={38} alt="Monty Events Logo" /> */}
+                    MONTY EVENTS
                 </Link>
 
                 <SignedIn>
@@ -29,7 +30,7 @@ const Header = () => {
                     <SignedOut>
                         <Button asChild className="rounded-full " size="lg">
                             <Link href="/sign-in">
-                                Login
+                                Login 👋
                             </Link>
                         </Button>
                     </SignedOut>

@@ -19,12 +19,12 @@ export function FileUploader({ imageUrl, onFieldChange, setFiles }: FileUploader
     const onDrop = useCallback((acceptedFiles: FileWithPath[]) => {
         setFiles(acceptedFiles)
         onFieldChange(convertFileToUrl(acceptedFiles[0]))
-    }, [])
+    }, []);
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
         accept: generateClientDropzoneAccept(['image/*']),
-    })
+    });
 
     return (
         <div

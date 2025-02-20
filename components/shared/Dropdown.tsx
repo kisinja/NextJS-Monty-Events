@@ -1,23 +1,7 @@
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ICategory } from "@/lib/database/models/category.model";
 import { startTransition, useEffect, useState } from "react";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { Input } from "../ui/input";
 import { createCategory, getAllCategories } from "@/lib/actions/category.actions";
 
@@ -43,7 +27,7 @@ const Dropdown = ({ value, onChangeHandler }: DropdownProps) => {
         const getCategories = async () => {
             const categoryList = await getAllCategories();
 
-            categoryList && setCategories(categories as ICategory[]);
+            categoryList && setCategories(categoryList as ICategory[]);
         }
 
         getCategories();
@@ -52,11 +36,11 @@ const Dropdown = ({ value, onChangeHandler }: DropdownProps) => {
     return (
         <Select onValueChange={onChangeHandler} defaultValue={value} >
             <SelectTrigger className="select-field">
-                <SelectValue placeholder="Category" />
+                <SelectValue placeholder="Category" id="cat-placeholder" />
             </SelectTrigger>
             <SelectContent>
                 {categories.length > 0 && categories.map(cat => (
-                    <SelectItem key={cat._id} value={cat.name} className="select-item p-regular-14">
+                    <SelectItem key={cat._id} value={cat._id} className="select-item p-regular-14">
                         {cat.name}
                     </SelectItem>
                 ))}

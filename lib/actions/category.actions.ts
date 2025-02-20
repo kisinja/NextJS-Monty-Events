@@ -15,6 +15,7 @@ export const createCategory = async (categoryName: string) => {
         return JSON.parse(JSON.stringify(newCategory));
     } catch (error) {
         handleError(error);
+        console.log(error);
     }
 };
 
@@ -23,7 +24,7 @@ export const getAllCategories = async () => {
         await connectToDatabase();
 
         // Create category
-        const categories = await Category.find();
+        const categories = await Category.find({});
 
         return JSON.parse(JSON.stringify(categories));
     } catch (error) {

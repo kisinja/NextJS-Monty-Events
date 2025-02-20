@@ -13,7 +13,7 @@ export const connectToDatabase = async () => {
         throw new Error('Mongo URI is missing');
     }
 
-    cached.promise = cached.promise || mongoose.connect(MONGO_URI, {
+    cached.promise = cached.promise || await mongoose.connect(MONGO_URI, {
         dbName: 'MontyEvents',
         bufferCommands: false,
     });
