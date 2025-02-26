@@ -1,11 +1,26 @@
+import Collection from "@/components/shared/Collection";
 import { Button } from "@/components/ui/button";
+import { getAllEvents } from "@/lib/actions/event.actions";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
 
-export default function Home() {
+export default async function Home() {
+
+  const events = await getAllEvents(
+    {
+      query: '',
+      category: '',
+      limit: 6,
+      page: 1,
+    }
+  );
+
+  //console.log(events);
+
   return (
     <>
-      <section className="bg-primary-50 bg-dotted-pattern bg-contain py-5 md:py-10">
+      <section className="bg-primary-50 bg-dotted-pattern bg-contain py-5 md:py-12">
         <div className="wrapper grid grid-cols-1 gap-5 md:grid-cols-2 2xl:gap-0">
           <div className="flex flex-col justify-center gap-8">
             <h1 className="h1-bold">Host, Connect, Celebrate: Your Events, Our Platform!</h1>
@@ -36,6 +51,16 @@ export default function Home() {
           Search
           CategoryFilter
         </div>
+
+        <Collection
+          data={events?.data}
+          emptyTitle="No events found"
+          emptyStateSubtext="Try again later!"
+          collectionType="All_Events"
+          limit={6}
+          page={1}
+          totalPages={2}
+        />
       </section>
     </>
   );

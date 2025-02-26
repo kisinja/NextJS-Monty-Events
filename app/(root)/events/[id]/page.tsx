@@ -9,7 +9,7 @@ const EventDetails = async ({ params: { id } }: SearchParamProps) => {
     console.log(event);
 
     return (
-        <section className="flex justify-center bg-primary-50 bg-dotted-pattern bg-contain">
+        <section className="flex justify-center bg-primary-50 bg-dotted-pattern bg-contain md:px-12">
             <div className="grid grid-cols-1 md:grid-cols-2 2xl:max-w-7xl">
                 <Image
                     src={event.imageUrl}
@@ -62,7 +62,7 @@ const EventDetails = async ({ params: { id } }: SearchParamProps) => {
                     </div>
 
                     <div className="flex flex-col gap-2">
-                        <p className="p-bold-20 text-gray-600">What you'll Learn:</p>
+                        <p className="p-bold-20 text-gray-600">What To expect:</p>
                         <p className="p-medium-16 lg:p-regular-18">{event.description}</p>
                         <p className="p-medium-16 lg:p-regular-18 truncate text-primary-500 underline">{event.url}</p>
                     </div>
