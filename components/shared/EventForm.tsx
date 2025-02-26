@@ -233,15 +233,16 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                             <FormItem className="w-full">
                                 <FormControl>
                                     <div className="flex items-center h-[55px] w-full overflow-hidden rounded-full bg-gray-50 px-4 py-2">
-                                        <Image
+                                        {/* <Image
                                             src="/assets/icons/dollar.svg"
                                             alt="dollar"
                                             width={24}
                                             height={24}
                                             className="filter-grey"
-                                        />
+                                        /> */}
+                                        <span>💵</span>
                                         <Input
-                                            placeholder="Price"
+                                            placeholder="Price in KES"
                                             {...field}
                                             className="p-regular-16 border-0 bg-gray-50 outline-offset-0 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:ring-primary-500 focus-visible:ring-offset-primary-500"
                                             type="number"
