@@ -18,7 +18,7 @@ const Card = ({
 }: CardProps) => {
     //console.log(event);
 
-    const { sessionClaims } = auth();
+    //const { sessionClaims } = auth();
     const userId = '67b07d49f8af8e4520d52594';
 
     const isEventCreator = userId === event.organizer._id.toString();
