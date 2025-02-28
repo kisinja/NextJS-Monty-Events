@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { getAllEvents } from "@/lib/actions/event.actions";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
 
 export default async function Home() {
 
@@ -16,7 +15,6 @@ export default async function Home() {
     }
   );
 
-  //console.log(events);
 
   return (
     <>

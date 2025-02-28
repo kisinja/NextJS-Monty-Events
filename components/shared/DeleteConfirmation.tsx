@@ -45,7 +45,9 @@ const DeleteConfirmation = ({ eventId }: { eventId: string }) => {
                             startTransition(async () => {
                                 await deleteEvent({ eventId, path: pathname })
                             })
-                        }>
+                        }
+                        className='bg-red-500 hover:bg-red-600'
+                    >
                         {isPending ? 'Deleting...' : 'Delete'}
                     </AlertDialogAction>
                 </AlertDialogFooter>

@@ -19,17 +19,24 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useUploadThing } from '@/lib/uploadthing';
 import { handleError } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { createEvent } from "@/lib/actions/event.actions";
+import { createEvent, updateEvent } from "@/lib/actions/event.actions";
+import { IEvent } from "@/lib/database/models/event.model"
 
 
 type EventFormProps = {
     userId: string;
     type: "Create" | "Update";
+    event?: IEvent,
+    eventId?: string,
 }
 
-const EventForm = ({ userId, type }: EventFormProps) => {
+const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
 
-    const initialValues = eventDefaultValues;
+    const initialValues = event && type === "Update"
+        ? {
+            ...event, startDateTime: new Date(event.startDateTime), endDateTime: new Date(event.endDateTime)
+        }
+        : eventDefaultValues;
     const router = useRouter();
     const [files, setFiles] = useState<File[]>([]);
 
@@ -73,7 +80,31 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                 console.log(error);
             }
         }
-    }
+
+        if (type === 'Update') {
+            console.log(event);
+            if (!eventId) {
+                router.back()
+                return;
+            }
+
+            try {
+                const updatedEvent = await updateEvent({
+                    event: { ...values, imageUrl: uploadedImageUrl, _id: eventId },
+                    userId,
+                    path: `/events/${eventId}`
+                });
+
+                if (updatedEvent) {
+                    form.reset();
+                    router.push(`/events/${updatedEvent._id}`);
+                }
+            } catch (error) {
+                handleError(error);
+                console.log(error);
+            }
+        }
+    };
 
     return (
         <Form {...form}>
@@ -95,7 +126,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
 
                     <FormField
                         control={form.control}
-                        name="category"
+                        name="categoryId"
                         render={({ field }) => (
                             <FormItem className="w-full my-8">
                                 <FormControl>

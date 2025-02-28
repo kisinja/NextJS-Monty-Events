@@ -1,6 +1,6 @@
 "use server";
 
-import { DeleteEventParams, GetAllEventsParams, GetEventsByUserParams, GetRelatedEventsByCategoryParams } from "@/types";
+import { DeleteEventParams, GetAllEventsParams, GetEventsByUserParams, GetRelatedEventsByCategoryParams, CreateEventParams, UpdateEventParams } from "@/types";
 import { connectToDatabase } from "../database";
 import Category from "../database/models/category.model";
 import Event from "../database/models/event.model";
@@ -8,18 +8,8 @@ import User from "../database/models/user.model";
 import { handleError } from "../utils";
 import { revalidatePath } from "next/cache";
 
-type CreateEventsParams = {
-    event: {
-        title: string;
-        description: string;
-        location: string;
-        date: Date;
-        category: string;
-    };
-    userId: string;
-    path: string;
-};
 
+// Populate Event function
 const populateEvent = async (query: any) => {
     return query
         .populate({
@@ -34,8 +24,8 @@ const populateEvent = async (query: any) => {
         });
 };
 
-
-export const createEvent = async ({ event, userId, path }: CreateEventsParams) => {
+// CREATE a new Event
+export const createEvent = async ({ event, userId, path }: CreateEventParams) => {
     try {
         await connectToDatabase();
 
@@ -52,7 +42,7 @@ export const createEvent = async ({ event, userId, path }: CreateEventsParams) =
 
         const newEvent = await Event.create({
             ...event,
-            category: event.category,
+            category: event.categoryId,
             organizer: userId,
         });
 
@@ -62,6 +52,7 @@ export const createEvent = async ({ event, userId, path }: CreateEventsParams) =
     }
 };
 
+// GET Event By ID
 export const getEventById = async (eventId: string) => {
     try {
 
@@ -78,6 +69,7 @@ export const getEventById = async (eventId: string) => {
     }
 };
 
+// GET All Events
 export const getAllEvents = async ({ query, limit = 6, page, category }: GetAllEventsParams) => {
     try {
         await connectToDatabase();
@@ -114,6 +106,7 @@ export const getAllEvents = async ({ query, limit = 6, page, category }: GetAllE
     }
 };
 
+// DELETE Event
 export const deleteEvent = async ({ eventId, path }: DeleteEventParams) => {
     try {
 
@@ -176,3 +169,26 @@ export async function getRelatedEventsByCategory({
         handleError(error)
     }
 };
+
+// UPDATE
+export async function updateEvent({ userId, event, path }: UpdateEventParams) {
+    try {
+        await connectToDatabase();
+
+        const eventToUpdate = await Event.findById(event._id);
+        if (!eventToUpdate || eventToUpdate.organizer.toHexString() !== userId) {
+            throw new Error('Unauthorized or event not found')
+        }
+
+        const updatedEvent = await Event.findByIdAndUpdate(
+            event._id,
+            { ...event, category: event.categoryId },
+            { new: true }
+        )
+        revalidatePath(path)
+
+        return JSON.parse(JSON.stringify(updatedEvent))
+    } catch (error) {
+        handleError(error)
+    }
+}
