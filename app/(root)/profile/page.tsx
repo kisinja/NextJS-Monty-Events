@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const ProfilePage = async () => {
 
-    const userId = "67b07d49f8af8e4520d52594";
+    const userId = "67bb2b3376b42fe93b0e7d00";
 
     const organizedEvents = await getEventsByUser({
         userId,
@@ -18,7 +18,7 @@ const ProfilePage = async () => {
             <section className="bg-primary-50 bg-dotted-pattern bg-cover bg-center py-5 md:py-10">
                 <div className="wrapper flex items-center justify-center sm:justify-between">
                     <h3 className="h3-bold text-center sm:text-left">My Tickets</h3>
-                    <Button asChild className="button hidden sm:flex">
+                    <Button asChild size="lg" className="button hidden sm:flex">
                         <Link href="/#events">
                             Explore More Events
                         </Link>

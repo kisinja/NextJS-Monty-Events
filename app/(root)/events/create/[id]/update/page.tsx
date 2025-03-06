@@ -11,6 +11,7 @@ const UpdateEvent = () => {
     console.log(sessionClaims); */
     const { user } = useUser();
     const userId = user?.id as string;
+    console.log(user);
 
     return (
         <>
@@ -18,7 +19,7 @@ const UpdateEvent = () => {
                 <h3 className='wrapper h3-bold text-center sm:text-left'>Update Event</h3>
             </section>
             <div className="wrapper my-8">
-                <EventForm userId={userId} type="Update" />
+                <EventForm userId="67bb2b3376b42fe93b0e7d00" type="Update" />
             </div>
         </>
     )

@@ -19,7 +19,7 @@ const CreateEvent = async () => {
                 <h3 className='wrapper h3-bold text-center sm:text-left'>Create Event</h3>
             </section>
             <div className="wrapper my-8">
-                <EventForm userId="67b07d49f8af8e4520d52594" type="Create" />
+                <EventForm userId="67bb2b3376b42fe93b0e7d00" type="Create" />
             </div>
         </>
     );
