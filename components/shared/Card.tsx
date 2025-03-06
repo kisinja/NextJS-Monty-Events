@@ -74,13 +74,15 @@ const Card = ({
                     </p>
 
                     {hasOrderLink && (
-                        <Link
-                            href={`/orders?eventId=${event._id}`}
-                            className="flex gap-2"
-                        >
-                            <p className="text-primary-500">Order Details</p>
-                            <Image src="/assets/icons/arrow.svg" alt="Search" width={10} height={10} />
-                        </Link>
+                        <div className="flex justify-between">
+                            <Link
+                                href={`/orders?eventId=${event._id}`}
+                                className="flex gap-2"
+                            >
+                                <p className="text-primary-500">Order Details</p>
+                                <Image src="/assets/icons/arrow.svg" alt="Search" width={10} height={10} />
+                            </Link>
+                        </div>
                     )}
                 </div>
             </div>

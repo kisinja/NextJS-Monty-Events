@@ -274,6 +274,10 @@ body {
   background-color: #624cf5 !important;
 }
 
-#cat-placeholder{
+#cat-placeholder {
   @apply text-gray-500
+}
+
+input {
+  @apply focus:ring-2 focus:ring-primary-500 focus:outline-none
 }
